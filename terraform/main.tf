@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0.0"
+      version = "~> 3.75"
     }
   }
 }
@@ -44,7 +44,9 @@ resource "azurerm_linux_web_app" "backend" {
   https_only          = true
   site_config {
     application_stack {
-      java_version = "17"
+      java_server         = "JAVA"
+      java_server_version = "17"
+      java_version        = "17"
     }
   }
 }

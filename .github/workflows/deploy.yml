@@ -37,7 +37,7 @@ jobs:
 
       - name: Terraform Init
         working-directory: ./terraform
-        run: terraform init
+        run: terraform init -upgrade
 
       - name: Terraform Apply
         id: terraform_apply
