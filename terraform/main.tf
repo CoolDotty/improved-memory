@@ -50,6 +50,7 @@ resource "azurerm_linux_web_app" "backend" {
   service_plan_id     = azurerm_service_plan.backend.id
   https_only          = true
   site_config {
+    always_on = false
     application_stack {
       java_server         = "JAVA"
       java_server_version = "17"
