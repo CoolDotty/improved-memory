@@ -75,13 +75,15 @@ jobs:
         working-directory: ./backend
         run: ./gradlew build -x test
 
+      - name: List built artifacts
+        run: ls -la ./backend/build/libs/ || echo "libs directory not found"
+
       - name: Deploy Backend to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ needs.terraform.outputs.backend_app_service_name }}
           resource-group-name: ${{ needs.terraform.outputs.resource_group_name }}
-          package: './backend/build/libs/*.jar'
-          java-version: '17'
+          package: ./backend/build/libs/*.jar
 
       # Frontend Deployment
       - name: Set up Node.js
