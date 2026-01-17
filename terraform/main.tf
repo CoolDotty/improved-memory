@@ -21,7 +21,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_storage_account" "frontend" {
-  name                     = "st${replace(var.resource_group_name, "-", "")}"
+  name                     = "st${substr(replace(var.resource_group_name, "-", ""), 0, 22)}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"

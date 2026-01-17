@@ -39,7 +39,7 @@ Get AZURE_CREDENTIALS
 ```
 az ad sp create-for-rbac --name "GitHubActionsDeployment" --role contributor --scopes /subscriptions/$(az account show --query user.name -o tsv) --sdk-auth
 ```
-Github Environment
+Github Environment, one for "main" and one for "dev"
   ┌──────────────────────────┬───────────────────────┐
   │         Variable         │     Example Value     |
   ├──────────────────────────┼───────────────────────┤
@@ -53,3 +53,4 @@ Github Environment
   ├──────────────────────────┼───────────────────────┤
   │ TF_STATE_CONTAINER       │ tfstate               |                                                                                      
   └──────────────────────────┴───────────────────────┘ 
+
