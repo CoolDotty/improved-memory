@@ -24,6 +24,11 @@ resource "azurerm_static_web_app" "frontend" {
   name                = "stapp-${var.resource_group_name}"
   resource_group_name = azurerm_resource_group.main.name
   location            = coalesce(var.frontend_location, var.location, "westus")
+
+  timeouts {
+    create = "30m"
+    read   = "10m"
+  }
 }
 
 resource "azurerm_service_plan" "backend" {
@@ -40,6 +45,7 @@ resource "azurerm_linux_web_app" "backend" {
   resource_group_name = azurerm_resource_group.main.name
   service_plan_id     = azurerm_service_plan.backend.id
   https_only          = true
+
   site_config {
     always_on = false
     application_stack {
@@ -47,5 +53,10 @@ resource "azurerm_linux_web_app" "backend" {
       java_server_version = "17"
       java_version        = "17"
     }
+  }
+
+  timeouts {
+    create = "30m"
+    read   = "10m"
   }
 }

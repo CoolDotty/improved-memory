@@ -102,6 +102,32 @@ jobs:
         working-directory: ./terraform
         run: |
           terraform apply -auto-approve
+
+          # Retry loop for Azure resource propagation
+          max_attempts=5
+          attempt=1
+          wait_time=10
+
+          while [ $attempt -le $max_attempts ]; do
+            echo "Attempt $attempt/$max_attempts: Refreshing state and reading outputs..."
+
+            if terraform refresh && \
+               terraform output -raw static_web_app_api_key > /dev/null 2>&1; then
+              echo "Outputs available, proceeding..."
+              break
+            fi
+
+            if [ $attempt -eq $max_attempts ]; then
+              echo "Failed to read outputs after $max_attempts attempts"
+              exit 1
+            fi
+
+            echo "Outputs not ready, waiting ${wait_time}s..."
+            sleep $wait_time
+            wait_time=$((wait_time * 2))
+            attempt=$((attempt + 1))
+          done
+
           echo "backend_hostname=$(terraform output -raw backend_hostname)" >> $GITHUB_OUTPUT
           echo "backend_app_service_name=$(terraform output -raw backend_app_service_name)" >> $GITHUB_OUTPUT
           echo "resource_group_name=$(terraform output -raw resource_group_name)" >> $GITHUB_OUTPUT

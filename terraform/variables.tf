@@ -11,9 +11,11 @@ variable "location" {
 variable "frontend_location" {
   description = "The Azure region where frontend resources will be created."
   type        = string
+  default     = null
 }
 
 variable "backend_location" {
   description = "The Azure region where backend resources will be created."
   type        = string
+  default     = null
 }
