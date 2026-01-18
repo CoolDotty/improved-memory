@@ -54,3 +54,7 @@ Github Environment, one for "main" and one for "dev"
   │ TF_STATE_CONTAINER       │ tfstate               |                                                                                      
   └──────────────────────────┴───────────────────────┘ 
 
+Nuke azure
+```
+az group list --query "[].name" -o tsv | xargs -I {} az group delete --name {} --no-wait --yes
+```

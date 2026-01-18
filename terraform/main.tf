@@ -23,12 +23,12 @@ resource "azurerm_resource_group" "main" {
 resource "azurerm_static_web_app" "frontend" {
   name                = "stapp-${var.resource_group_name}"
   resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
+  location            = coalesce(var.frontend_location, var.location, "westus")
 }
 
 resource "azurerm_service_plan" "backend" {
   name                = "asp-${var.resource_group_name}"
-  location            = azurerm_resource_group.main.location
+  location            = coalesce(var.backend_location, var.location, "westus")
   resource_group_name = azurerm_resource_group.main.name
   os_type             = "Linux"
   sku_name            = "F1"
@@ -36,7 +36,7 @@ resource "azurerm_service_plan" "backend" {
 
 resource "azurerm_linux_web_app" "backend" {
   name                = "app-${var.resource_group_name}"
-  location            = azurerm_resource_group.main.location
+  location            = coalesce(var.backend_location, var.location, "westus")
   resource_group_name = azurerm_resource_group.main.name
   service_plan_id     = azurerm_service_plan.backend.id
   https_only          = true

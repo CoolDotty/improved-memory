@@ -25,6 +25,8 @@ jobs:
     env:
       TF_VAR_resource_group_name: ${{ vars.RESOURCE_GROUP_NAME }}
       TF_VAR_location: ${{ vars.AZURE_LOCATION }}
+      TF_VAR_frontend_location: ${{ vars.AZURE_FRONTEND_LOCATION || vars.AZURE_LOCATION }}
+      TF_VAR_backend_location: ${{ vars.AZURE_BACKEND_LOCATION || vars.AZURE_LOCATION }}
     outputs:
       backend_hostname: ${{ steps.terraform_apply.outputs.backend_hostname }}
       backend_app_service_name: ${{ steps.terraform_apply.outputs.backend_app_service_name }}
